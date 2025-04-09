@@ -26,7 +26,7 @@ export function ExpenseCharts({ expensesByCategory, monthlyExpenses }: ExpenseCh
   // Format data for pie chart with consistent conversion
   const pieData = Object.entries(expensesByCategory).map(([name, value]) => ({
     name,
-    value: value * 75, // Apply INR conversion for display
+    value: value, // Apply INR conversion for display
   }));
 
   // Sort by amount (largest first)
@@ -74,7 +74,7 @@ export function ExpenseCharts({ expensesByCategory, monthlyExpenses }: ExpenseCh
             <BarChart
               data={monthlyExpenses.map(item => ({
                 ...item, 
-                amount: item.amount * 75 // Apply INR conversion consistently
+                amount: item.amount  // Apply INR conversion consistently
               }))}
               margin={{ top: 10, right: 10, left: 10, bottom: 20 }}
             >

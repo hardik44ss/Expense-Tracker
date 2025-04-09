@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { PlusCircle } from 'lucide-react';
+import { Expense } from '../types';
 
 interface ExpenseFormProps {
   onAddExpense: (expense: Omit<Expense, 'id'>) => void;

@@ -12,7 +12,7 @@ export function ExpenseList({ expenses, onDeleteExpense }: ExpenseListProps) {
   // Calculate total expenses
   const totalExpense = useMemo(() => {
     // Only apply the conversion when displaying, not in the calculation
-    return expenses.reduce((sum, expense) => sum + expense.amount, 0) * 75;
+    return expenses.reduce((sum, expense) => sum + expense.amount, 0);
   }, [expenses]);
 
   return (
@@ -37,7 +37,7 @@ export function ExpenseList({ expenses, onDeleteExpense }: ExpenseListProps) {
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{expense.description}</td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{expense.category}</td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                  ₹{(expense.amount * 75).toFixed(2)}
+                  ₹{(expense.amount).toFixed(2)}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                   <button
