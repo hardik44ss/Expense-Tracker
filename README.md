@@ -18,7 +18,6 @@ ExpenseTracker is a modern, user-friendly application designed to help you manag
 ✅ **Responsive Design** - Works seamlessly on desktop and mobile devices  
 ✅ **Demo Mode** - Try it out with sample data without creating an account  
 
-![Dashboard Preview](https://your-image-url.com/dashboard.gif)
 
 ## 🛠️ Tech Stack
 
@@ -69,23 +68,16 @@ ExpenseTracker is a modern, user-friendly application designed to help you manag
   # or
   yarn dev
 ```
+## 🖥️ Screenshots
 
-## 🖥️ Screenshots & GIFs
+### 🔐 Login Page
+![Login Page](./loginPage.png)
 
-#### 📌 **User Dashboard**
-![Dashboard](https://your-image-url.com/dashboard.gif)
-
-#### 📌 **Expense Tracking**
-![Expense Tracking](https://your-image-url.com/expense-tracking.gif)
-
-#### 📌 **Mobile Responsive View**
-![Mobile View](https://your-image-url.com/mobile-view.gif)
+### 📊 Dashboard
+![Dashboard](./DashBoard.png)
 
 ## 💡 Contributing
 We welcome contributions! If you find a bug or have a feature request, please open an issue.
-
-## 📄 License
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ---
 
