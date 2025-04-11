@@ -1,12 +1,26 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { SignIn } from './SignIn';
 import { SignUp } from './SignUp';
 import { Layers, User, DollarSign } from 'lucide-react';
+import { useAuth } from '../contexts/AuthContext';
 
 export function Auth() {
   const [showSignIn, setShowSignIn] = useState(true);
+  const { user } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
   
+  // If we're already logged in, redirect to the dashboard
+  useEffect(() => {
+    if (user) {
+      // Get the intended destination or default to the root
+      const from = (location.state as any)?.from?.pathname || '/';
+      navigate(from, { replace: true });
+    }
+  }, [user, navigate, location]);
+
   const toggleAuth = () => {
     setShowSignIn(!showSignIn);
   };
@@ -114,3 +128,5 @@ export function Auth() {
     </div>
   );
 }
+
+export default Auth;

@@ -1,5 +1,5 @@
 import { lazy, Suspense } from 'react';
-import { createBrowserRouter } from 'react-router-dom';
+import { createBrowserRouter, Navigate } from 'react-router-dom';
 
 // Lazy load components
 const Layout = lazy(() => import('./components/Layout'));
@@ -12,6 +12,13 @@ const Loading = () => (
     <p className="text-lg font-medium text-gray-600">Loading...</p>
   </div>
 );
+
+// Path constants
+export const PATHS = {
+  HOME: '/',
+  LOGIN: '/login',
+  DASHBOARD: '/',
+};
 
 export const router = createBrowserRouter([
   {
@@ -30,14 +37,19 @@ export const router = createBrowserRouter([
           </Suspense>
         ),
       },
-      {
-        path: '/login',
-        element: (
-          <Suspense fallback={<Loading />}>
-            <Auth />
-          </Suspense>
-        ),
-      },
     ],
   },
+  {
+    path: '/login',
+    element: (
+      <Suspense fallback={<Loading />}>
+        <Auth />
+      </Suspense>
+    ),
+  },
+  // Fallback route - redirect to home
+  {
+    path: '*',
+    element: <Navigate to={PATHS.HOME} replace />,
+  }
 ]);

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useAuth } from '../contexts/AuthContext';
-import { Mail, Lock, AlertCircle, CheckCircle, ArrowRight, UserPlus } from 'lucide-react';
+import { Mail, Lock, User, AlertCircle, ArrowRight } from 'lucide-react';
 
 interface SignUpProps {
   onToggleAuth: () => void;
@@ -10,69 +10,37 @@ interface SignUpProps {
 export function SignUp({ onToggleAuth }: SignUpProps) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const [name, setName] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState<string | null>(null);
   const { signUp } = useAuth();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    if (!email || !password || !confirmPassword) {
+    if (!email || !password || !name) {
       setError('Please fill in all fields');
-      return;
-    }
-    
-    if (password !== confirmPassword) {
-      setError('Passwords do not match');
       return;
     }
 
     try {
       setError(null);
       setLoading(true);
-      const { error, data } = await signUp(email, password);
+      const { error } = await signUp(email, password, name);
       
       if (error) {
         setError(error.message);
-      } else {
-        setMessage('Registration successful! Please check your email for verification.');
       }
     } catch (err) {
-      setError('Failed to create an account');
+      setError('Failed to create account');
       console.error(err);
     } finally {
       setLoading(false);
     }
   };
 
-  // Validate password strength
-  const getPasswordStrength = () => {
-    if (!password) return 0;
-    let strength = 0;
-    
-    // Contains lowercase
-    if (/[a-z]/.test(password)) strength += 1;
-    // Contains uppercase
-    if (/[A-Z]/.test(password)) strength += 1;
-    // Contains number
-    if (/[0-9]/.test(password)) strength += 1;
-    // Contains special char
-    if (/[^a-zA-Z0-9]/.test(password)) strength += 1;
-    // Minimum length
-    if (password.length >= 8) strength += 1;
-    
-    return strength;
-  };
-
-  const passwordStrength = getPasswordStrength();
-  const passwordStrengthText = ['Very Weak', 'Weak', 'Fair', 'Good', 'Strong', 'Very Strong'][passwordStrength];
-  const passwordStrengthColor = ['bg-red-500', 'bg-red-400', 'bg-yellow-500', 'bg-yellow-400', 'bg-green-400', 'bg-green-500'][passwordStrength];
-
   return (
     <div>
-      <h2 className="text-2xl font-bold text-gray-800 mb-6">Create Account</h2>
+      <h2 className="text-2xl font-bold text-gray-800 mb-6">Create an Account</h2>
       
       {error && (
         <motion.div 
@@ -88,21 +56,24 @@ export function SignUp({ onToggleAuth }: SignUpProps) {
         </motion.div>
       )}
       
-      {message && (
-        <motion.div 
-          initial={{ opacity: 0, height: 0 }}
-          animate={{ opacity: 1, height: 'auto' }}
-          className="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-6 rounded" 
-          role="alert"
-        >
-          <div className="flex items-center">
-            <CheckCircle className="h-5 w-5 mr-2" />
-            <span>{message}</span>
-          </div>
-        </motion.div>
-      )}
-      
       <form onSubmit={handleSubmit}>
+        <div className="mb-4">
+          <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+          <div className="relative">
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <User className="h-5 w-5 text-gray-400" />
+            </div>
+            <input
+              id="name"
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              className="pl-10 w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-200"
+              required
+            />
+          </div>
+        </div>
+
         <div className="mb-4">
           <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">Email</label>
           <div className="relative">
@@ -120,7 +91,7 @@ export function SignUp({ onToggleAuth }: SignUpProps) {
           </div>
         </div>
         
-        <div className="mb-4">
+        <div className="mb-6">
           <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">Password</label>
           <div className="relative">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -135,51 +106,6 @@ export function SignUp({ onToggleAuth }: SignUpProps) {
               required
             />
           </div>
-          {password && (
-            <div className="mt-2">
-              <div className="flex justify-between items-center mb-1">
-                <div className="flex h-2 w-full bg-gray-200 rounded-full overflow-hidden">
-                  <motion.div 
-                    className={`${passwordStrengthColor}`} 
-                    initial={{ width: 0 }}
-                    animate={{ width: `${(passwordStrength / 5) * 100}%` }}
-                    transition={{ duration: 0.3 }}
-                  />
-                </div>
-                <span className="text-xs ml-2 min-w-[80px] text-right">{passwordStrengthText}</span>
-              </div>
-            </div>
-          )}
-        </div>
-        
-        <div className="mb-6">
-          <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 mb-1">Confirm Password</label>
-          <div className="relative">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <Lock className="h-5 w-5 text-gray-400" />
-            </div>
-            <input
-              id="confirmPassword"
-              type="password"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              className="pl-10 w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-200"
-              required
-            />
-          </div>
-          {password && confirmPassword && (
-            <div className="mt-1">
-              {password === confirmPassword ? (
-                <span className="text-xs text-green-600 flex items-center">
-                  <CheckCircle className="h-3 w-3 mr-1" /> Passwords match
-                </span>
-              ) : (
-                <span className="text-xs text-red-600 flex items-center">
-                  <AlertCircle className="h-3 w-3 mr-1" /> Passwords don't match
-                </span>
-              )}
-            </div>
-          )}
         </div>
         
         <motion.button
@@ -199,7 +125,7 @@ export function SignUp({ onToggleAuth }: SignUpProps) {
             </div>
           ) : (
             <div className="flex items-center">
-              Sign Up <UserPlus className="ml-2 h-5 w-5" />
+              Sign Up <ArrowRight className="ml-2 h-5 w-5" />
             </div>
           )}
         </motion.button>

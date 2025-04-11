@@ -6,11 +6,11 @@ export interface Expense {
   date: string;
 }
 
-export type ExpensesByCategory = {
-  [key: string]: number;
-};
+export interface ExpensesByCategory {
+  [category: string]: number;
+}
 
-export type MonthlyExpenses = {
+export interface MonthlyExpenses {
   date: string;
   amount: number;
-};
+}
