@@ -7,7 +7,7 @@
 ExpenseTracker is a modern, user-friendly application designed to help you manage your personal finances with ease. Track expenses, visualize spending patterns, and gain insights into your financial habits through intuitive charts and detailed analysis.
 
 ### ✨ Live Demo
-[![View Live Demo](https://img.shields.io/badge/Live%20Demo-Click%20Here-blue?style=for-the-badge)](https://expense-tracker-kappa-lemon.vercel.app/login)
+[![View Live Demo](https://img.shields.io/badge/Live%20Demo-Click%20Here-blue?style=for-the-badge)](https://expense-tracker-kappa-lemon.vercel.app)
 
 ## 🚀 Features
 
